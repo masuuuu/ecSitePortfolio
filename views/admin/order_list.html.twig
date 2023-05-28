@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{constant('models\\Bootstrap::APP_URL')}}assets/js/shopping.js"></script>
+  <link href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>注文管理</title>
+</head>
+<body>
+   <div class="wrapper">
+      {% include 'header.html.twig' %}
+      <div class="contents">
+        <div class="contents_inner">
+          <div class="admin-contents">
+            <h3>注文管理</h3>
+            {% if date_err | length > 0 %}
+              <p class="red">{{date_err}}<p>
+            {% endif %}
+            <form action="" method="post">
+              <input type="date" name="date_start" max="{{'now' | date('Y-m-d')}}" value="{{'now' | date('Y-m-d')}}">&nbsp;-&nbsp;<input type="date" name="date_end" max="{{'now' | date('Y-m-d')}}" value="{{'now' | date('Y-m-d')}}">
+              <button class="csv-button" name="csvoutput" type="submit">CSV ダウンロード</button>
+            </form>
+            {% include 'order_list_condition.html.twig' %}
+            <div class="list-container">
+              <table class="list">
+                <tr>
+                  <th>注文日時</th>
+                  <th>注文番号</th>
+                  <th>注文者</th>
+                  <th>合計金額</th>
+                </tr>
+                {% for val in orderArr %}
+                <tr>
+                  <td>{{val.order_date}}</td>
+                  <td><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/orderDetail.php?order_no={{val.order_no}}">{{val.order_no}}</a></td>
+                  <td>{{val.full_name}}</td>
+                  <td>&yen;{{val.total_payment_amount|number_format(0, '.', ',')}}</td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+            {% include 'sp_order_list_condition_pading.html.twig' %}
+            <div class="r-20"><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/admin.php">戻る</a></div>
+        <div>
+      <div>
+    <div>
+  <div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{constant('models\\Bootstrap::APP_URL')}}assets/js/shopping.js"></script>
+  <link href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>注文詳細</title>
+</head>
+<body>
+   <div class="wrapper">
+      {% include 'header.html.twig' %}
+      <div class="contents">
+        <div class="contents_inner">
+          <div class="admin-contents">
+          <h3>注文詳細</h3>
+            <table class="list detail">
+              <tr>
+                <th>注文番号</th>
+                <td>{{order_no}}</td>
+              </tr>
+                <th>お届け先</th>
+                <td>
+                  <ul>
+                    {% for val in deliveryAddress %}
+                    <li>{{val.full_name}}</li>
+                    <li>〒{{val.zip1}}{{val.zip2}}</li>
+                    <li>{{val.address}}</li>
+                    <li>{{val.phone_number}}</li>
+                    {% endfor %}
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th>注文商品</th>
+                <td>
+                  {% for val in orderDetailData %}
+                  <ul class="order-detail">
+                    <li>商品名&nbsp;{{val.item_name}}</li>
+                    <li>カラー&nbsp;{{val.color}}</li>
+                    <li>サイズ&nbsp;{{val.size}}</li>
+                    <li>単価&nbsp;&yen;{{val.unit_price|number_format(0, '.', ',')}}</li>
+                    <li>個数&nbsp;{{val.quantity}}</li>
+                  </ul>
+                  {% endfor %}
+                </td>
+              </tr>
+              <tr>
+                <th>支払い詳細</th>
+                <td>
+                  {% for val in orderData %}
+                  <li>お支払い方法&nbsp;{{val.payment_name}}</li>
+                  <li>商品代金合計&nbsp;&yen;{{val.total_amount|number_format(0, '.', ',')}}</li>
+                  {% if val.payment_fee > 0 %}
+                  <li>決済手数料&nbsp;&yen;{{val.payment_fee|number_format(0, '.', ',')}}</li>
+                  {% endif %}
+                  <li>支払い代金合計&nbsp;&yen;{{val.total_payment_amount|number_format(0, '.', ',')}}</li>
+                  {% endfor %}
+                </td>
+              </tr>
+            </table>
+            <div class="r-20"><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/orderList.php">戻る</a></div>
+        <div>
+      <div>
+    <div>
+  <div>
+</body>
+</html>

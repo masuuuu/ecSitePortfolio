@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{{constant('models\\Bootstrap::APP_URL')}}assets/js/shopping.js"></script>
+    <link rel="stylesheet" href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" type="text/css">
+    <title>商品登録</title>
+</head>
+<body>
+<body>
+  <div class="wrapper">
+    {% include 'header.html.twig' %}
+    <div class="contents">
+      <div class="contents_inner">
+        <div class="admin-contents">
+          <h3>商品登録</h3>
+          {% if transactionMessage | length > 0 %}
+            <p class="red">{{transactionMessage}}</p>
+          {% endif %}
+          <form action="" method="post" enctype="multipart/form-data">
+            <div class="format-list">
+              <div class="format-subject">カテゴリー<span class="red">必須</span></div>
+              <div class="format-input">
+                <select name="category_id">
+                  {% for index, label in cateArr %}
+                    <option value="{{index}}" {% if dataArr.category_id == index %} selected {% endif %}>
+                    {{label}}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="format-list">
+              <div class="format-subject">商品名<span class="red">必須</span></div>
+              <div class="format-input">
+                <input type="text" name="item_name" value="{{dataArr.item_name}}">
+                  {% if errArr.item_name | length > 0 %}<br>
+                  <span class="red">{{errArr.item_name}}</span>
+                  {% endif %}
+              </div>
+            </div>
+            <div class="format-list">
+              <div class="format-subject">商品説明<span class="red">必須</span></div>
+              <div class="format-input">
+                <textarea name="detail" cols="30" rows="10">{{dataArr.detail}}</textarea>
+                {% if errArr.detail | length > 0 %}<br>
+                <span class="red">{{errArr.detail}}</span>
+                {% endif %}
+              </div>
+            </div>
+            <div class="format-list">
+              <div class="format-subject">商品価格<span class="red">必須</span></div>
+              <div class="format-input">
+                <input type="text" name="unit_price" value="{{dataArr.unit_price}}">
+                {% if errArr.unit_price | length > 0 %}<br>
+                <span class="red">{{errArr.unit_price}}</span>
+                {% endif %}
+              </div>
+            </div>
+            <div class="format-list">
+              <div class="format-subject">商品画像<span class="red">必須</span></div>
+              <div class="format-input">
+                {% if errArr.image | length > 0 %}<br>
+                  <span class="red">{{errArr.image}}</span>
+                {% endif %}
+                <div class="input-list flex">
+                {% for i in 1..10 %}
+                  <div class="flex-box">
+                    <div class="app">
+                      <div class="delete">×</div>
+                      <div class="preview"></div>
+                      <label>
+                        <input type="file" name="1-{{i}}" class="preview-uploader">ファイルを選択
+                      </label>
+                    </div>
+                  </div>
+                {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="format-list flex">
+              <div class="flex-box">
+                <div class="format-subject">カラー<span class="red">必須</span></div>
+                <div class="format-input">
+                  <textarea name="color" cols="30" rows="10">{{dataArr.color}}</textarea>
+                  {% if errArr.color | length > 0 %}<br>
+                  <span class="red">{{errArr.color}}</span>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="flex-box">
+                <div class="format-subject">サイズ<span class="red">必須</span></div>
+                <div class="format-input">
+                  <textarea name="size" cols="30" rows="10">{{dataArr.size}}</textarea>
+                  {% if errArr.size | length > 0 %}<br>
+                  <span class="red">{{errArr.size}}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="r-20"><input type="submit" name="register" value="登録"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

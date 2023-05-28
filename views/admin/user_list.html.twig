@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" type="text/css">
+    <title>登録ユーザー一覧</title>
+  </head>
+<body>
+  <div class="wrapper">
+    {% include 'header.html.twig' %}
+    <div class="contents">
+      <div class="contents_inner">
+        <div class="admin-contents">
+          <h3>ユーザー検索</h3>
+          <div class="userSearch">
+            <form action="userList.php" method="get">
+            <table class="list detail">
+              <tr>
+                <th>お名前</th>
+                <td>
+                  <input type="text" name="full_name" value="{{full_name}}">
+                </td>
+                </form>
+              </tr>
+              <tr>
+                <th>フリガナ</th>
+                <td>
+                  <input type="text" name="full_name_kana" value="{{full_name_kana}}">
+                </td>
+                </form>
+              </tr>
+              <tr>
+                <th>メールアドレス</th>
+                <td>
+                  <input type="email" name="email" value="{{email}}">
+                </td>
+              </tr>
+            </table>
+            <div class="r-20 "><input type="submit" name="search" value="検索"></div>
+            </form>
+          </div>
+          <h3>登録ユーザー一覧</h3>
+          <div class="r-20 ">
+            <form action="" method="post">
+              <button class="m-20" name="csvoutput" type="submit">CSV ダウンロード</button>
+            </form>
+          </div>
+          {% include 'user_condition.html.twig' %}
+          <div class="list-container">
+            <table class="list">
+              <tr>
+                <th>ID</th>
+                <th>お名前</th>
+                <th>メールアドレス</th>
+                <th>電話番号</th>
+                <th>削除</th>
+              </tr>
+              {% for value in dataArr %}
+              <tr>
+                <td><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/userDetail.php?user_id={{value.user_id}}">{{value.user_id}}</a></td>
+                <td>{{value.full_name}}</td>
+                <td>{{value.email}}</td>
+                <td>{{value.phone_number}}</td>
+                <td>
+                <a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/deleteUserList.php?user_id={{value.user_id}}">削除</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+          {% include 'sp_user_condition_pading.html.twig' %}
+          <div class="r-20"><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/admin.php">戻る</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

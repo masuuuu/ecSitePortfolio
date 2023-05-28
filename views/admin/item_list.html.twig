@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{constant('models\\Bootstrap::APP_URL')}}assets/js/shopping.js"></script>
+  <link href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>商品管理</title>
+</head>
+<body>
+  <div class="wrapper">
+    {% include 'header.html.twig' %}
+    <div class="contents">
+      <div class="contents_inner">
+        <h3>商品管理一覧</h3>
+        <div class="item-contents">
+          <div class="menu">
+            {% include 'category_menu.html.twig' %}
+          </div>
+          <div class="main">
+            {% include 'item_condition.html.twig'%}
+            {% if dataArr | length == 0 %}
+              <p class="empty">検索に一致する商品は見つかりませんでした</p>
+            {% else %}
+            <table class="list">
+              <tr>
+                <th>商品一覧</th>
+                <th>商品名</th>
+                <th>価格</th>
+                <th>詳細</th>
+                <th>削除</th>
+              </tr>
+              {% for value in dataArr %}
+              <tr>
+                <td>
+                  <img src="{{constant('models\\Bootstrap::APP_URL')}}assets/images/{{value.image}}" alt="{{value.item_name}}">
+                </td>
+                <td>{{value.item_name}}</td>
+                <td>&yen;{{value.unit_price|number_format(0, '.', ',')}}</td>
+                <td><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemDetail.php?item_id={{value.item_id}}">詳細</a></td>
+                <td><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemDetail.php?item_id={{value.item_id}}">削除</a></td>
+              </tr>
+              {% endfor %}
+            </table>
+            {% endif %}
+            {% include 'sp_item_condition_pading.html.twig'%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

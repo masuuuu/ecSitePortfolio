@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{constant('models\\Bootstrap::APP_URL')}}assets/js/shopping.js"></script>
+  <link href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>購入履歴</title>
+</head>
+<body>
+  <div class="wrapper">
+    {% include 'header.html.twig' %}
+    <div class="contents">
+      <div class="contents_inner">
+        <div class="main-contents">
+          <h3>購入履歴</h3>
+          {% include 'purchase_history_condition.html.twig' %}
+          <table class="list">
+            <tr>
+              <th>購入日時</th>
+              <th>注文番号</th>
+              <th>お支払い金額</th>
+            </tr>
+            {% for val in orderArr %}
+            <tr>
+              <td>{{val.order_date}}</td>
+              <td><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/purchaseHistoryDetail.php?order_no={{val.order_no}}">{{val.order_no}}</a></td>
+              <td>&yen;{{val.total_payment_amount|number_format(0, '.', ',')}}</td>
+            </tr>
+            {% endfor %}
+          </table>
+          {% include 'sp_purchase_history_condition_pading.html.twig' %}
+          <div class="r-20"><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/userInfo.php">戻る</a></div>
+        <div>
+      <div>
+    <div>
+  <div>
+</body>
+</html>

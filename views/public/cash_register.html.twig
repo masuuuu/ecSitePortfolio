@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{constant('models\\Bootstrap::APP_URL')}}assets/js/shopping.js"></script>
+  <link href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>カート</title>
+</head>
+  <body>
+   <div class="wrapper">
+      {% include 'header.html.twig' %}
+      <div class="contents">
+        <div class="contents_inner">
+          <div class="main-contents">
+            <h3>ご注文内容確認</h3>
+            <form action="orderConfirm.php" method="post">
+              <div class="cart-contents_inner">
+                <div class="cart-item">
+                  <table class="list">
+                    <tr>
+                      <th>お届け先住所</th>
+                      <td colspan="2">
+                        {% for value in deliveryAddress %}
+                        <ul>
+                          <li>{{value.full_name}}</li>
+                          <li>〒{{value.zip1}}{{value.zip2}}</li>
+                          <li>{{value.address}}</li>
+                          <li>{{value.phone_number}}</li>
+                        </ul>
+                        </ul>
+                        {% endfor %}
+                      </td>
+                      {# <td><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/deliveryAddressChange.php">変更</a></td> #}
+                    </tr>
+                    <tr>
+                      <th>お支払い方法</th>
+                      <td colspan="2">
+                        <ul>
+                          <li>
+                            {% if payment_id == 1 %}
+                            <p>クレジットカード</p>
+                            <script
+                              type="text/javascript"
+                              src="https://checkout.pay.jp/"
+                              class="payjp-button"
+                              data-key="pk_test_fa4c3745214069f6782b4736"
+                              data-submit-text="カード情報を入力"
+                              data-partial="true">
+                            </script>
+                            {% if card_error | length > 0 %}
+                              <span class="red">{{card_error}}</span>
+                            {% endif %}
+                            {% elseif payment_id == 2 %}
+                            <p>代引き</p>
+                            {% elseif payment_id == 3 %}
+                            <p>銀行振込</p>
+                            {% endif %}
+                            <input type="hidden" name="payment_id" value="{{payment_id}}">
+                          </li>
+                        </ul>
+                      </td>
+                      <td><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/paymentChange.php?pay=ch">変更</a></td>
+                    </tr>
+                    {% for value in dataArr %}
+                    <tr class="p-0">
+                      <td><img src="{{constant('models\\Bootstrap::APP_URL')}}assets/images/{{value.image}}" alt="{{value.item_name}}"></td>
+                      <td>
+                        <ul>
+                          <li>商品名：{{value.item_name}}</li>
+                          <li>カラー：{{value.color}}</li>
+                          <li>サイズ：{{value.size}}</li>
+                        </ul>
+                      </td>
+                      <td>&yen;{{value.unit_price|number_format(0, '.', ',')}}</td>
+                      <td>数量<br>{{value.quantity}}</td>
+                    </tr>
+                    <input type="hidden" name="sku_code[]" value="{{value.sku_code}}">
+                    <input type="hidden" name="quantity[]" value="{{value.quantity}}">
+                    <input type="hidden" name="unit_price[]" value="{{value.unit_price}}">
+                    {% endfor %}
+                  </table>
+                </div>
+                <div>
+                  <div class="cart_info">
+                    <div>
+                      <p>合計数量</p>
+                      <p>{{totalQuantity}}点</p>
+                      <input type="hidden" name="totalQuantity" value="{{totalQuantity}}">
+                    </div>
+                    <div>
+                      <p>商品代金合計</p>
+                      <p>&yen;{{totalAmount|number_format(0, '.', ',')}}</p>
+                      <input type="hidden" name="totalAmount" value="{{totalAmount}}">
+                    </div>
+                    {% if payment_id == 2 %}
+                    <div>
+                      <p>決済手数料</p>
+                      <p>&yen;{{priceFee}}</p>
+                    </div>
+                    {% endif %}
+                    <div>
+                      <p>お支払い金額合計</p>
+                      <p>&yen;{{totalPaymentAmount|number_format(0, '.', ',')}}</p>
+                      <input type="hidden" name="totalPaymentAmount" value="{{totalPaymentAmount}}">
+                    </div>
+                      <input type="submit" name="order" value="注文を確定する">
+                  </div>
+                </div>
+              </div>
+              <div class="r-20"><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/itemList.php">商品一覧へ戻る</a></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% include 'footer.html.twig' %}
+    </div>
+  </body>
+</html>

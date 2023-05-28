@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{constant('models\\Bootstrap::APP_URL')}}assets/js/shopping.js"></script>
+  <link href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" rel="stylesheet">
+  <script src="https://www.google.com/recaptcha/api.js?render=6Lc11D4lAAAAAK3t9suv41C-RoH4y9iu7SJDEFgN"></script>
+  <script>
+      grecaptcha.ready(function () {
+        grecaptcha.execute("6Lc11D4lAAAAAK3t9suv41C-RoH4y9iu7SJDEFgN", {action: "sent"}).then(function(token) {
+          var recaptchaResponse = document.getElementById("recaptchaResponse");
+          recaptchaResponse.value = token;
+        });
+      });
+  </script>
+  <title>ログイン</title>
+</head>
+<body>
+  <div class="wrapper">
+    {% include 'header.html.twig' %}
+    <div class="contents">
+      <div class="contents_inner">
+        <div class="main-contents">
+        <h3>ログイン</h3>
+        <form action="" method="post">
+          <table class="list detail block">
+            <tr>
+              {% if errArr.recaptcha | length > 0 %}<br>
+                <span class="red">{{errArr.recaptcha}}</span>
+              {% endif %}
+            </tr>
+            <tr>
+              <th>メールアドレス</th>
+              <td>
+                <input type="email" name="email" value="{{dataArr.email}}" size="40">
+                {% if errArr.email | length > 0 %}<br>
+                  <span class="red">{{errArr.email}}</span>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th>パスワード</th>
+              <td>
+                <input type="password" name="password" value="{{dataArr.password}}" size="16">
+                {% if errArr.password | length > 0 %}<br>
+                  <span class="red">{{errArr.password}}</span>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+          <div class="r-20">
+            <input type="hidden" name="recaptchaResponse" id="recaptchaResponse">
+            <input type="submit" name="login" value="ログイン">
+          </div>
+          <div class="r-20">
+            <a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/userRegist.php">新規会員登録はこちら</a><br>
+            <a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/passwordResetRequestForm.php">パスワードをお忘れの方</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{constant('models\\Bootstrap::APP_URL')}}assets/js/shopping.js"></script>
+  <link href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>会員登録確認</title>
+</head>
+<body>
+  <div class="wrapper">
+    {% include 'header.html.twig' %}
+    <div class="contents">
+      <div class="contents_inner">
+        <div class="main-contents">
+          <h3>登録内容確認</h3>
+          <form method="post" action="userConfirm.php">
+            <table class="list detail block">
+              <tr>
+                <th>お名前</th>
+                  <td>{{dataArr.full_name}}</td>
+              </tr>
+              <tr>
+                <th>お名前（カナ）</th>
+                <td>{{dataArr.full_name_kana}}</td>
+              </tr>
+              <tr>
+                <th>性別</th>
+                <td>
+                  {% if dataArr.sex == '1' %}男性{% elseif dataArr.sex == '2' %}女性
+                  {% endif %}
+                </td> 
+              </tr>
+              <tr>
+                <th>生年月日</th>
+                <td>{{dataArr.year}}年 {{dataArr.month}}月 {{dataArr.day}}日</td>
+              </tr>
+              <tr>
+                <th>郵便番号</th>
+                <td>{{dataArr.zip1}} - {{dataArr.zip2}}</td>
+              </tr>
+              <tr>
+                <th>住所</th>
+                <td>{{dataArr.address}}</td>
+              </tr>
+              <tr>
+                <th>メールアドレス</th>
+                <td>{{dataArr.email}}</td>
+              </tr>
+              <tr>
+                <th>電話番号</th>
+                <td>{{dataArr.phone_number}}</td>
+              </tr>
+            </table>
+            <div class="r-20">
+              <input type="submit" name="back" value="戻る">
+              <input type="submit" name="complete" value="登録完了">
+              {# forcach (dataArr as key => index) #}
+              {% for key,value in dataArr %}
+              {# iterableはtwig関数 配列かチェックしている #}
+                {% if value is iterable %}
+                  {% for v in value %}
+                    <input type="hidden" name="{{key}}[]" value="{{v}}">
+                    {# nameで配列を宣言してキーを配列に入れる #}
+                  {% endfor %}
+                  {% else %}
+                    <input type="hidden" name="{{key}}" value="{{value}}">
+                {% endif %}
+              {% endfor %}
+            </div>
+          </form>
+        <div>
+      <div>
+    <div>
+  <div>
+</body>
+</html>

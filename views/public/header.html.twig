@@ -1,0 +1,41 @@
+<div class="header">
+  <div class="header_inner">
+    <div><h3><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/itemList.php">SHOPPING</a></h3></div>
+    <div class="pc-nav">
+      <ul>
+        {% if user_id | length > 0 %}
+        <li><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/userInfo.php"><i class="fa-solid fa-user fa-xl"></i></a></li>
+        <li><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/cart.php"><i class="fa-solid fa-cart-shopping fa-xl"></i></a></li>
+        {% endif %}
+        <li>
+        {% if user_id | length > 0 %}
+          <a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/userLogin.php?logout={{user_id}}">LOGOUT</a>
+        {% else %}
+          <a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/userLogin.php">LOGIN</a>
+        {% endif %}
+        </li>
+      </ul>
+    </div>
+    <div class="sp-nav_btn">
+      <ul>
+        {% if user_id | length > 0 %}
+        <li><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/userInfo.php"><i class="fa-solid fa-user fa-xl"></i></a></li>
+        <li><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/cart.php"><i class="fa-solid fa-cart-shopping fa-xl"></i></a></li>
+        {% endif %}
+        <li>
+        {% if user_id | length > 0 %}
+          <a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/userLogin.php?logout={{user_id}}">LOGOUT</a>
+        {% else %}
+          <a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/userLogin.php">LOGIN</a>
+        {% endif %}
+        </li>
+        {% if cateArr | length > 0 %}
+        <li class="menu-trigger"><i class="fa-solid fa-bars fa-xl"></i></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+  <div class="sp-nav">
+    {% include 'category_menu.html.twig' %}
+  </div>
+</div>

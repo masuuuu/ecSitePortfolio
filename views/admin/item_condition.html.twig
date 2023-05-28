@@ -1,0 +1,61 @@
+<div class="condition">
+  <div class="condition-filter">
+    <div class="condition-hits">{{item_count}}件</div>
+    <div class="condition-select">
+      <div class="condition-select-label">
+        表示順:
+        <span class="condition-select-label-text">
+        {% if sort == 'new' %}新着
+        {% elseif sort == 'high' %}価格高
+        {% elseif sort == 'row' %}価格低
+        {% endif %}
+        </span>
+      </div>
+      <div class="condition-select-list">
+        <ul data-key="sort">
+          <li><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemList.php?limit={{limit}}&amp;sort=new{% if category_id | length > 0 %}&amp;category_id={{category_id}}{% endif %}">新着</a></li>
+          <li><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemList.php?limit={{limit}}&amp;sort=high{% if category_id | length > 0 %}&amp;category_id={{category_id}}{% endif %}">価格高</a></li>
+          <li ><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemList.php?limit={{limit}}&amp;sort=row{% if category_id | length > 0 %}&amp;category_id={{category_id}}{% endif %}">価格低</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="condition-select">
+      <div class="condition-select-label">
+        表示件数 :
+        <span class="condition-select-label-text">{{limit}}</span>
+      </div>
+      <div class="condition-select-list">
+        <ul data-key="limit">
+          <li><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemList.php?limit=40&amp;sort={{sort}}{% if category_id | length > 0 %}&amp;category_id={{category_id}}{% endif %}">40</a></li>
+          <li><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemList.php?limit=20&amp;sort={{sort}}{% if category_id | length > 0 %}&amp;category_id={{category_id}}{% endif %}">20</a></li>
+          <li><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemList.php?limit=10&amp;sort={{sort}}{% if category_id | length > 0 %}&amp;category_id={{category_id}}{% endif %}">10</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="pc condition-paging">
+    <ul>
+    {% if pages > 0 %}
+      {% if now_page >= 2 %}
+        <li class="page"><a href='{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemList.php?page_id={{now_page-1}}&amp;limit={{limit}}&amp;sort={{sort}}{% if category_id | length > 0 %}&amp;category_id={{category_id}}{% endif %}'>&laquo;</a></li>
+      {% else %}
+        <li class="now-page">&laquo;</li>
+      {% endif %}
+      {% for i in 1..pages %}
+        {% if i >= now_page - range and i <= now_page + range %}
+          {% if i == now_page %}
+            <li class="now-page">{{now_page}}</li>
+          {% else %}
+            <li class="page"><a href='{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemList.php?page_id={{i}}&amp;limit={{limit}}&amp;sort={{sort}}{% if category_id | length > 0 %}&amp;category_id={{category_id}}{% endif %}'>{{i}}</a></li>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      {% if now_page < pages %}
+        <li class="page"><a href='{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemList.php?page_id={{now_page+1}}&amp;limit={{limit}}&amp;sort={{sort}}{% if category_id | length > 0 %}&amp;category_id={{category_id}}{% endif %}'>&raquo;</a></li>
+      {% else %}
+        <li class="now-page">&raquo;</li>
+      {% endif %}
+    {% endif %}
+    </ul>
+  </div>
+</div>

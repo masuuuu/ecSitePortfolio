@@ -1,0 +1,17 @@
+<div id="category">
+  <form action="itemList.php" method="get">
+    <input type="text" name="keyword" value="{{item_keyword}}">
+  <button type="submit">検索</button>
+  </form>
+  <p>CATEGORY</p>
+  <ul>
+    <li>
+      <a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/itemList.php?limit={{limit}}&amp;sort={{sort}}">ALL</a>
+    </li>
+    {% for value in cateArr %}
+    <li>
+      <a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/itemList.php?category_id={{value.category_id}}&amp;limit={{limit}}&amp;sort={{sort}}">{{value.category_name}}</a>
+    {% endfor %}
+    </li>
+  </ul>
+</div>

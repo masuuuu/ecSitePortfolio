@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" type="text/css">
+  <title>お問い合わせ管理</title>
+</head>
+<body>
+  <div class="wrapper">
+    {% include 'header.html.twig' %}
+    <div class="contents">
+      <div class="contents_inner">
+        <div class="admin-contents">
+          <h3>お問い合わせ一覧</h3>
+          {% include 'contact_condition.html.twig' %}
+          <div class="list-container">
+            <table class="list">
+              <tr>
+                <th>ID</th>
+                <th>日時</th>
+                <th>名前</th>
+                <th>メールアドレス</th>
+                <th>内容</th>
+                <th>対応</th>
+              </tr>
+              {% for value in dataArr %}
+              <tr>
+                <td>
+                  <a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/contactDetail.php?contact_id={{value.contact_id}}">{{value.contact_id}}</a>
+                </td>
+                <td>{{value.regist_date}}</td>
+                <td>{{value.name}}</td>
+                <td>{{value.email}}</td>
+                <td>{{value.content|length > 15 ? value.content|slice(0, 15) ~ '...' : value.content}}</td>
+                <td>{% if value.state == 0 %}未{% elseif value.state == 1 %}済{% endif %}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+          {% include 'sp_contact_condition_pading.html.twig' %}
+          <div class="r-20"><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/admin.php">戻る</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

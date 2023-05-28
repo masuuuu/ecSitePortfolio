@@ -1,0 +1,25 @@
+<div class="sp condition-paging">
+  <ul>
+  {% if pages > 0 %}
+    {% if now_page >= 2 %}
+      <li class="page"><a href='{{constant('models\\Bootstrap::ENTRY_URL')}}admin/contactList.php?page_id={{now_page-1}}&amp;limit={{limit}}&amp;sort={{sort}}'>&laquo;</a></li>
+    {% else %}
+      <li class="now-page">&laquo;</li>
+    {% endif %}
+    {% for i in 1..pages %}
+      {% if i >= now_page - range and i <= now_page + range %}
+        {% if i == now_page %}
+          <li class="now-page">{{now_page}}</li>
+        {% else %}
+          <li class="page"><a href='{{constant('models\\Bootstrap::ENTRY_URL')}}admin/contactList.php?page_id={{i}}&amp;limit={{limit}}&amp;sort={{sort}}'>{{i}}</a></li>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    {% if now_page < pages %}
+      <li class="page"><a href='{{constant('models\\Bootstrap::ENTRY_URL')}}admin/contactList.php?page_id={{now_page+1}}&amp;limit={{limit}}&amp;sort={{sort}}'>&raquo;</a></li>
+    {% else %}
+      <li class="now-page">&raquo;</li>
+    {% endif %}
+  {% endif %}
+  </ul>
+</div>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{constant('models\\Bootstrap::APP_URL')}}assets/js/shopping.js"></script>
+  <link href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>カート</title>
+</head>
+  <body>
+   <div class="wrapper">
+      {% include 'header.html.twig' %}
+      <div class="contents">
+        <div class="contents_inner">
+          <div class="main-contents">
+          <h3>ショッピングカート</h3>
+            <div class="cart-contents_inner">
+              {% if dataArr | length == 0 %}
+              <p class="empty">現在カートは空です</p>
+              {% else %}
+              <div class="cart-item">
+                <table class="list">
+                  <tr>
+                    <th colspan="2">商品</th>
+                    <th>価格</th>
+                    <th>数量</th>
+                    <th>削除</th>
+                  </tr>
+                  {% for value in dataArr %}
+                  <tr class="p-0">
+                    <td><img src="{{constant('models\\Bootstrap::APP_URL')}}assets/images/{{value.image}}" alt="{{value.item_name}}"></td>
+                    <td>
+                      <ul class="cart-item-detail">
+                        <li>商品名：{{value.item_name}}</li>
+                        <li>カラー：{{value.color}}</li>
+                        <li>サイズ：{{value.size}}</li>
+                      </ul>
+                    </td>
+                    <td>&yen;{{value.unit_price|number_format(0, '.', ',')}}</td>
+                    <td>
+                    <form action="" method="get">
+                      <label>数量<br>
+                        <select name="quantity">
+                          {% for key, val in quantityArr %}
+                            <option value="{{val}}" {% if value.quantity == val %} selected {% endif %}>{{val}}</option>
+                          {% endfor %}
+                        </select>
+                      </label>
+                      <input type="hidden" name="sku_code" value="{{value.sku_code}}">
+                      <button class="num-button" type="submit">変更</button>
+                    </form>
+                    </td>
+                    <td><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/cart.php?crt_id={{value.crt_id}}">削除</a></td>
+                  </tr>
+                  {% endfor %}
+                </table>
+              </div>
+              <div>
+                <div class="cart_info">
+                  <div>
+                    <p>合計数量</p>
+                    <p>{{totalQuantity}}点</p>
+                  </div>
+                  <div>
+                    <p>合計金額</p>
+                    <p>&yen;{{totalAmount|number_format(0, '.', ',')}}</p>
+                  </div>
+                  <form action="cashRegister.php" mehotd="get">
+                    <input type="submit" name="reg" value="レジに進む">
+                  </form>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+            <div class="r-20"><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/itemList.php">商品一覧へ戻る</a></div>
+          </div>
+        </div>
+      </div>
+    {% include 'footer.html.twig' %}
+    </div>
+  </body>
+</html>

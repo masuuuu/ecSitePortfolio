@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{constant('models\\Bootstrap::APP_URL')}}assets/js/shopping.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css">
+  <link rel="stylesheet" href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" type="text/css">
+  <title>管理者ページ</title>
+</head>
+<body>
+  <div class="wrapper">
+    {% include 'header.html.twig' %}
+    <div class="contents">
+      <div class="contents_inner">
+        <div class="admin-contents">
+          <h3>売り上げ管理</h3>
+          <form action="" method="post">
+          <select id="selectChart" name="selectChart">
+            <option value="monthChart">月別</option>
+            <option value="dayChart">日別</option>
+          </select>
+          <button class="csv-button" name="csvoutput" type="submit">CSV ダウンロード</button>
+          </form>
+          <div>
+            <canvas id="monthChart"></canvas>
+            <canvas id="dayChart" class="hide"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+var month_labels = {{ month_labels|json_encode|raw }};
+var month_sales_arr_val = {{ month_sales_arr_val|json_encode|raw }};
+var month = document.getElementById('monthChart');
+var monthChart = new Chart(month, {
+type: 'line', //タイプを指定
+data: {
+labels: month_labels, //月とかを配列で記入
+datasets: [{
+label: '売り上げ',
+data: month_sales_arr_val, //データ数値を配列で（本来は変数で引っ張って使うようにする）
+backgroundColor: [ //この辺は全部カラーの設定↓
+'rgba(255, 99, 132, 0.2)',
+
+],
+borderColor: [
+'rgba(255, 99, 132, 1)',
+'rgba(54, 162, 235, 1)',
+'rgba(255, 206, 86, 1)',
+'rgba(75, 192, 192, 1)',
+'rgba(153, 102, 255, 1)',
+'rgba(255, 159, 64, 1)',
+'rgba(255, 99, 132, 1)',
+'rgba(54, 162, 235, 1)',
+'rgba(255, 206, 86, 1)',
+'rgba(75, 192, 192, 1)',
+'rgba(153, 102, 255, 1)',
+'rgba(255, 159, 64, 1)',
+],
+borderWidth: 1,
+}]
+},
+options: {
+scales: {
+yAxes: [{
+ticks: {
+beginAtZero: true
+}
+}]
+}
+}
+});
+
+var day_labels = {{ day_labels|json_encode|raw }};
+var day_sales_arr_val = {{ day_sales_arr_val|json_encode|raw }};
+var day = document.getElementById('dayChart');
+var dayChart = new Chart(day, {
+type: 'line', //タイプを指定
+data: {
+labels: day_labels, //月とかを配列で記入
+datasets: [{
+label: '売り上げ',
+data: day_sales_arr_val, //データ数値を配列で（本来は変数で引っ張って使うようにする）
+backgroundColor: [ //この辺は全部カラーの設定↓
+'rgba(255, 99, 132, 0.2)',
+],
+borderColor: [
+'rgba(255, 99, 132, 1)',
+'rgba(54, 162, 235, 1)',
+'rgba(255, 206, 86, 1)',
+'rgba(75, 192, 192, 1)',
+'rgba(153, 102, 255, 1)',
+'rgba(255, 159, 64, 1)',
+'rgba(255, 99, 132, 1)',
+'rgba(54, 162, 235, 1)',
+'rgba(255, 206, 86, 1)',
+'rgba(75, 192, 192, 1)',
+'rgba(153, 102, 255, 1)',
+'rgba(255, 159, 64, 1)',
+'rgba(255, 99, 132, 1)',
+'rgba(54, 162, 235, 1)',
+'rgba(255, 206, 86, 1)',
+'rgba(75, 192, 192, 1)',
+'rgba(153, 102, 255, 1)',
+'rgba(255, 159, 64, 1)',
+'rgba(255, 99, 132, 1)',
+'rgba(54, 162, 235, 1)',
+'rgba(255, 206, 86, 1)',
+'rgba(75, 192, 192, 1)',
+'rgba(153, 102, 255, 1)',
+'rgba(255, 159, 64, 1)',
+'rgba(255, 99, 132, 1)',
+'rgba(54, 162, 235, 1)',
+'rgba(255, 206, 86, 1)',
+'rgba(75, 192, 192, 1)',
+'rgba(153, 102, 255, 1)',
+'rgba(255, 159, 64, 1)',
+'rgba(255, 99, 132, 1)',
+],
+borderWidth: 1,
+}]
+},
+options: {
+scales: {
+yAxes: [{
+ticks: {
+beginAtZero: true
+}
+}]
+}
+}
+});
+
+</script>
+
+
+</body>
+</html>

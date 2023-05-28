@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{constant('models\\Bootstrap::APP_URL')}}assets/js/shopping.js"></script>
+  <link href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>会員登録</title>
+</head>
+<body>
+   <div class="wrapper">
+      {% include 'header.html.twig' %}
+      <div class="contents">
+        <div class="contents_inner">
+          <div class="main-contents">
+          <h3>お問い合わせ</h3>
+          <form action="contactConfirm.php" method="post">
+            <table class="list detail block">
+              <tr>
+                <th>お名前<span class="red">必須</span></th>
+                <td>
+                  <input type="text" name="name" value="{{dataArr.name}}">
+                  {% if errArr.name | length > 0 %}<br>
+                  <span class="red">{{errArr.name}}</span>{% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th>メールアドレス<span class="red">必須</span></th>
+                <td>
+                  <input type="email" name="email" value="{{dataArr.email}}" size="40">
+                  {% if errArr.email | length > 0%}<br>
+                    <span class="red">{{errArr.email}}</span>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th>お問い合わせ<span class="red">必須</span></th>
+                  <td>
+                    <textarea name="content" cols="50" rows="10">{{dataArr.content}}</textarea>
+                    {% if errArr.content | length > 0 %}<br>
+                    <span class="red">{{errArr.content}}</span>{% endif %}
+                  </td>
+              <tr>
+            </table>
+            <div class="r-20">
+              <input type="hidden" name="token" value="{{token}}">
+              <input type="submit" name="confirm" value="確認">
+            </div>
+          </form>
+          <div class="r-20"><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}public/itemList.php">戻る</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

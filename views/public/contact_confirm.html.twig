@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{constant('models\\Bootstrap::APP_URL')}}assets/js/shopping.js"></script>
+  <link href="{{constant('models\\Bootstrap::APP_URL')}}assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>お問い合わせ内容確認</title>
+</head>
+<body>
+   <div class="wrapper">
+      {% include 'header.html.twig' %}
+      <div class="contents">
+        <div class="contents_inner">
+          <div class="main-contents">
+          <h3>お問い合わせの確認</h3>
+          <form method="post" action="contactConfirm.php">
+            <table class="list detail">
+              <tr>
+                <th>お名前</th>
+                  <td>{{dataArr.name}}</td>
+              </tr>
+                <th>メールアドレス</th>
+                <td>{{dataArr.email}}</td>
+              </tr>
+              <tr>
+                <th>お問い合わせ</th>
+                <td>{{dataArr.content}}</td>
+              </tr>
+            </table>
+            <div class="r-20">
+              <input type="hidden" name="token" value="{{token}}">
+              <input type="submit" name="back" value="戻る">
+              <input type="submit" name="complete" value="送信">
+              {# forcach (dataArr as key => index) #}
+              {% for key,value in dataArr %}
+                <input type="hidden" name="{{key}}" value="{{value}}">
+              {% endfor %}
+            </div>
+          </form>
+        <div>
+      <div>
+    <div>
+  <div>
+</body>
+</html>

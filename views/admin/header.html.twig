@@ -1,0 +1,17 @@
+<div class="header">
+  <div class="header_inner">
+    <div><h3><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/admin.php">管理者ページ</a></h3></div>
+    <div>
+      <div class="sp-nav_btn">
+        <ul>
+          {% if cateArr | length > 0 %}
+          <li class="menu-trigger"><i class="fa-solid fa-bars fa-xl"></i></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="sp-nav">
+    {% include 'category_menu.html.twig' %}
+  </div>
+</div>
