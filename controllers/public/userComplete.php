@@ -1,6 +1,6 @@
 <?php
 
-//
+//ユーザー登録完了表示プログラム
 
 namespace controllers\public;
 

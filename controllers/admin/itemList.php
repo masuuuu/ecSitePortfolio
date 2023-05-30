@@ -9,9 +9,11 @@ require_once dirname(__FILE__) . '/../../models/Bootstrap.class.php';
 use models\Bootstrap;
 use models\PDODatabase;
 use models\Item;
+use models\ItemRegist;
 
 $db = new PDODatabase(Bootstrap::DB_HOST, Bootstrap::DB_USER, Bootstrap::DB_PASS, Bootstrap::DB_NAME, Bootstrap::DB_TYPE);
 $itm = new Item($db);
+$itemRegist = new ItemRegist($db);
 
 $loader = new \Twig_Loader_Filesystem(Bootstrap::TEMPLATE_DIR_ADMIN);
 $twig = new \Twig_Environment($loader, [
@@ -28,6 +30,19 @@ $limit = (isset($_GET['limit']) === true) ? intval($_GET['limit']) : 10;
 $sort = (isset($_GET['sort']) === true) ? $_GET['sort'] : 'new';
 //現在のページ
 $now_page = (isset($_GET['page_id']) === true) ? $_GET['page_id'] : 1;
+//削除されたら渡ってくる
+$item_id = (isset($_GET['item_id']) === true) ? $_GET['item_id'] : '';
+
+//商品の削除
+if($item_id !== '')
+{
+  $res = $itemRegist->deleteItem($item_id);
+  if($res === true)
+  {
+    header('Location:' . Bootstrap::ENTRY_URL. 'admin/itemList.php');
+    exit;
+  }
+}
 
 //表示順の設定
 switch($sort)
