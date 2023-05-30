@@ -23,6 +23,7 @@ $twig = new \Twig_Environment($loader, [
 
 $item_id = (isset($_GET['item_id']) === true && preg_match('/^\d+$/', $_GET['item_id']) === 1) ? $_GET['item_id'] : '';
 $sku_code = (isset($_GET['sku_code']) === true) ? $_GET['sku_code'] : '';
+$sku_code = (isset($_GET['sku_code']) === true) ? $_GET['sku_code'] : '';
 
 //item_idが取得できない場合、商品一覧へリダイレクト
 if($item_id === '')

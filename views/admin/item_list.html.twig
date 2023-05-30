@@ -40,7 +40,7 @@
                 <td>{{value.item_name}}</td>
                 <td>&yen;{{value.unit_price|number_format(0, '.', ',')}}</td>
                 <td><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemDetail.php?item_id={{value.item_id}}">詳細</a></td>
-                <td><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemDetail.php?item_id={{value.item_id}}">削除</a></td>
+                <td><a href="{{constant('models\\Bootstrap::ENTRY_URL')}}admin/itemList.php?item_id={{value.item_id}}">削除</a></td>
               </tr>
               {% endfor %}
             </table>

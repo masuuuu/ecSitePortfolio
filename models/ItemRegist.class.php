@@ -60,6 +60,7 @@ class ItemRegist
     return $this->errArr;
 
   }
+  //SKU追加のエラーチェック
   public function addSkuErrorCheck($dataArr)
   {
     $this->dataArr = $dataArr;
@@ -71,7 +72,7 @@ class ItemRegist
 
     return $this->errArr;
   }
-
+  //エラーメッセージ配列作成
   private function createErrorMessage()
   {
     foreach($this->dataArr as $key => $val)
@@ -79,7 +80,7 @@ class ItemRegist
       $this->errArr[$key] = '';
     }
   }
-
+  //商品名のエラーチェック
   private function itemNameCheck()
   {
     if(trim($this->dataArr['item_name']) === '')
@@ -87,6 +88,7 @@ class ItemRegist
       $this->errArr['item_name'] = '商品名を入力してください';
     }
   }
+  //商品説明のエラーチェック
   private function detailCheck()
   {
     if(trim($this->dataArr['detail']) === '')
@@ -94,6 +96,7 @@ class ItemRegist
       $this->errArr['detail'] = '商品説明を入力してください';
     }
   }
+  //価格のエラーチェック
   private function priceCheck()
   {
     if(trim($this->dataArr['unit_price']) === '' || preg_match('/^[0-9]+$/', $this->dataArr['unit_price']) === 0)
@@ -101,6 +104,7 @@ class ItemRegist
       $this->errArr['unit_price'] = '商品価格を半角数字で入力してください';
     }
   }
+  //商品画像のエラーがチェック
   private function imageCheck()
   {
     if($_FILES['1-1']['name'] === '')
@@ -134,7 +138,7 @@ class ItemRegist
       }
     }
   }
-
+  //画像のエラーチェック
   private function imageErrorCheck($tmp_image)
   {
     $imageError = true;
@@ -147,7 +151,7 @@ class ItemRegist
     }
     return $imageError;
   }
-
+  //画像のファイルサイズのチェック
   private function imageSizeCheck($tmp_image)
   {
     $imageSize = true;
@@ -261,8 +265,8 @@ class ItemRegist
   public function updateDetail($item_id, $dataArr)
   {
     $table = ' items ';
-    $where = ' item_id = ? ';
-    $arrVal = [$item_id];
+    $where = ' item_id = ? AND state = ? ';
+    $arrVal = [$item_id, 0];
     $dataArr['update_date'] = date('Y-m-d H:i:s');
     return $this->db->update($table, $dataArr, $where, $arrVal);
   }
@@ -365,6 +369,7 @@ class ItemRegist
     $arrWhereVal = [$item_id, $item_image_id];
     $this->db->update($table, $insData, $where, $arrWhereVal);
   }
+  //画像削除
   public function deleteImage($imageArr)
   {
     for($i = 0; $i < count($imageArr); $i++)
@@ -376,4 +381,15 @@ class ItemRegist
       }
     }
   }
+  //商品の削除
+  public function deleteItem($item_id)
+  {
+    $table = ' items ';
+    $where = ' item_id = ? ';
+    $arrVal = [$item_id];
+    $dataArr['state'] = 1;
+    $dataArr['delete_date'] = date('Y-m-d H:i:s');
+    return $this->db->update($table, $dataArr, $where, $arrVal);
+  }
+
 }

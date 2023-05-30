@@ -28,8 +28,8 @@ class Item
   {
     $table = ' items ';
     $col = ' item_id, item_name, detail, unit_price ';
-    $where = ($category_id !== '') ? '  category_id = ? ' : '';
-    $arrVal = ($category_id !== '') ? [$category_id] : [];
+    $where = ($category_id !== '') ? '  category_id = ? AND state = ? ' : ' state = ? ';
+    $arrVal = ($category_id !== '') ? [$category_id, 0] : [0];
 
     $res = $this->db->select($table,  $col, $where, $arrVal);
     return $res;
@@ -39,12 +39,13 @@ class Item
   public function countItemList($category_id)
   {
     $table = ' items ';
-    $where = ($category_id !== '') ? '  category_id = ? ' : '';
-    $arrVal = ($category_id !== '') ? [$category_id] : [];
+    $where = ($category_id !== '') ? '  category_id = ? AND state = ? ' : ' state = ? ';
+    $arrVal = ($category_id !== '') ? [$category_id, 0] : [0];
 
     $res = $this->db->count($table, $where, $arrVal);
     return $res;
   }
+
   //現ページ商品取得
   public function getSortItemList($order, $limit, $category_id, $now_page)
   {
@@ -52,9 +53,11 @@ class Item
     {
       $arrVal[] = $category_id;
       $arrVal[] = '1-1';
+      $arrVal[] = 0;
     }else
     {
       $arrVal[] = '1-1';
+      $arrVal[] = 0;
     }
     if($now_page === 1)
     {
@@ -69,7 +72,7 @@ class Item
 
     $table = ' items it JOIN images im ON it.item_id = im.item_id ';
     $col = ' it.item_id, it.item_name, it.detail, it.unit_price, im.image ';
-    $where = ($category_id !== '') ? ' it.category_id = ? AND im.item_image_id = ? ' : ' im.item_image_id = ? ';
+    $where = ($category_id !== '') ? ' it.category_id = ? AND im.item_image_id = ? AND it.state = ? ' : ' im.item_image_id = ? AND it.state = ? ';
     $order = $order;
     $limit = ' ?, ? ';
     $this->db->setOrder($order);
@@ -104,6 +107,7 @@ class Item
     }
     return [$where, $arrVal];
   }
+
   //キーワード該当商品数取得
   public function countItemKeywordList($where, $arrVal)
   {
@@ -118,18 +122,21 @@ class Item
     if($now_page === 1)
     {
       $arrVal[] = '1-1';
+      $arrVal[] = 0;
       $arrVal[] = $now_page-1;
       $arrVal[] = $limit;
 
     }else
     {
       $arrVal[] = '1-1';
+      $arrVal[] = 0;
       $arrVal[] = ($now_page-1)*$limit;
       $arrVal[] = $limit;
     }
+
     $table = ' items it JOIN images im ON it.item_id = im.item_id ';
     $col = ' it.item_id, it.item_name, it.detail, it.unit_price, im.image ';
-    $where .= ' AND im.item_image_id = ? ';
+    $where .= ' AND im.item_image_id = ? AND it.state = ? ';
     $order = $order;
     $limit = ' ?, ? ';
     $this->db->setOrder($order);
@@ -143,9 +150,9 @@ class Item
   {
     $table = ' items ';
     $col = ' item_id, item_name, detail, unit_price ';
-    $where = ($item_id !== '') ? ' item_id = ? ' : '';
+    $where = ($item_id !== '') ? ' item_id = ? AND state = ? ' : ' state = ? ';
     //カテゴリーによって表示させるアイテムをかえる
-    $arrVal = ($item_id !== '') ? [$item_id] : [];
+    $arrVal = ($item_id !== '') ? [$item_id, 0] : [0];
 
     $res = $this->db->select($table, $col, $where, $arrVal);
     return ($res !== false && count($res) !== 0) ? $res : false;
@@ -156,8 +163,8 @@ class Item
   {
     $table = ' items ';
     $col = ' item_id, item_name, detail, unit_price, category_id ';
-    $where = ' item_id = ? ';
-    $arrVal = [$item_id];
+    $where = ' item_id = ? AND state = ? ';
+    $arrVal = [$item_id, 0];
 
     return $this->db->select($table, $col, $where, $arrVal);
   }
